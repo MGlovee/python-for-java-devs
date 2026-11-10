@@ -27,7 +27,9 @@ def read_text_lines(path: str, encoding: str = "utf-8") -> list[str]:
 def split_path(path: str) -> tuple[str, str, str]:
     """用 `pathlib` 把路径拆成 (文件名, 主名, 扩展名)，扩展名**带点**，没有则为空串。
 
-    提示：`from pathlib import Path`，Path 有 `.name` / `.stem` / `.suffix` 三个属性。
+    提示：`from pathlib import PureWindowsPath`，它有 `.name` / `.stem` / `.suffix` 三个属性。
+    **别用 `Path` / `PurePath`** —— 它们跟随当前操作系统，在 Linux 上会把
+    `C:\\data\\scores.csv` 整串当成一个文件名。要处理 Windows 路径就显式用 `PureWindowsPath`。
     >>> split_path(r"C:\\data\\scores.csv")
     ('scores.csv', 'scores', '.csv')
     """

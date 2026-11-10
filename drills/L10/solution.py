@@ -10,7 +10,7 @@ import csv
 import datetime
 import io
 import json
-from pathlib import Path, PurePath
+from pathlib import Path, PureWindowsPath
 from typing import Any
 
 
@@ -21,7 +21,9 @@ def read_text_lines(path: str, encoding: str = "utf-8") -> list[str]:
 
 
 def split_path(path: str) -> tuple[str, str, str]:
-    pure = PurePath(path)
+    # 显式用 PureWindowsPath：PurePath 会跟随当前操作系统，
+    # 在 Linux/macOS 上跑 `PurePath(r"C:\data\scores.csv")` 会把它当成一个文件名。
+    pure = PureWindowsPath(path)
     return pure.name, pure.stem, pure.suffix
 
 
