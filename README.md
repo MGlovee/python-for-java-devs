@@ -1,5 +1,9 @@
 # 给 Java 后端工程师的 Python 速成
 
+[![verify](https://github.com/MGlovee/python-for-java-devs/actions/workflows/verify.yml/badge.svg)](https://github.com/MGlovee/python-for-java-devs/actions/workflows/verify.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/)
+
 > **15 课讲义 + 265 道自动判分练习 + 4 个可验收项目**，
 > 为"已经会写 Java、想在两周内用 Python 干活"的人重排的一条最短路径。
 > 判分器只用标准库，克隆下来零依赖就能跑。
