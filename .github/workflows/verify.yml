@@ -1,0 +1,46 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  drills-and-projects:
+    name: 判分与项目验收 (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # L15 与 P3 用到 numpy / pandas；其余课程只用标准库。
+      # 不装 pytest 也可以 —— check.py 会自动挂载 _pytest_shim.py。
+      - name: Install optional dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas pytest
+
+      - name: Grade all 15 drills against the reference solutions
+        run: python check.py --solution
+
+      - name: Verify all four projects with the reference implementations
+        run: |
+          python "projects/P1-日志分析命令行/verify.py" "projects/P1-日志分析命令行/example/app.py"
+          python "projects/P2-数据采集与入库/verify.py" "projects/P2-数据采集与入库/example/app.py"
+          python "projects/P3-数据报表/verify.py" "projects/P3-数据报表/example/app.py"
+          python "projects/P4-一个HTTP服务/verify.py" "projects/P4-一个HTTP服务/example/app.py"
+
+      - name: Check that every local Markdown link resolves
+        run: python tools/linkcheck.py
+
+      - name: Smoke-test the progress tool
+        run: python progress.py
